@@ -1,0 +1,75 @@
+name: Bump gitwarren
+
+# Keeps the cask pointed at the latest published release of
+# klarluft/gitwarren-app. Three ways in:
+#
+#  - repository_dispatch: sent by the app repository the moment a release is
+#    published, when it has a token for this repository. The fast path.
+#  - schedule: the fallback, so a release is picked up within a few hours
+#    even if the dispatch never arrives.
+#  - workflow_dispatch: by hand, optionally pinning a tag.
+#
+# Whatever the trigger, the result is the same: re-resolve the release,
+# rewrite the cask, and commit if anything changed.
+
+on:
+  repository_dispatch:
+    types: [release-published]
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to bump to (blank = latest published)
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    # macOS so that `brew audit --cask` runs the same checks a user's machine
+    # would, and so `shasum` matches the one the cask maintainers use.
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rewrite the cask
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || github.event.client_payload.tag || '' }}
+        run: scripts/bump.sh "$TAG"
+
+      - name: Anything to commit?
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Cask already current."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git --no-pager diff
+          fi
+
+      # Homebrew wants to read the cask from a tap, not a path, so make this
+      # checkout the tap. --online fetches both disk images and verifies the
+      # checksums just written, which is the check that actually matters.
+      - name: Audit the cask
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          brew tap klarluft/tap "$GITHUB_WORKSPACE"
+          brew style klarluft/tap
+          brew audit --cask --online --strict klarluft/tap/gitwarren
+          brew fetch --cask --arch intel klarluft/tap/gitwarren
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "gitwarren $(sed -nE 's/^  version "(.*)"$/\1/p' Casks/gitwarren.rb)"
+          git push
