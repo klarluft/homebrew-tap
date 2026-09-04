@@ -20,7 +20,7 @@ cask "gitwarren" do
   # every six hours, applies on the next restart), so `brew upgrade` leaves it
   # alone unless asked with --greedy.
   auto_updates true
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "GitWarren.app"
 
