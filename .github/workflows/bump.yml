@@ -55,6 +55,17 @@ jobs:
             git --no-pager diff
           fi
 
+      # `brew tap <path>` clones the checkout, so it sees committed history and
+      # not the working tree. Commit before auditing, or every check below runs
+      # against the *previous* release's cask and silently proves nothing.
+      # Nothing is pushed until the audit passes, so a bad bump stays local.
+      - name: Commit the bump
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "gitwarren $(sed -nE 's/^  version "(.*)"$/\1/p' Casks/gitwarren.rb)"
+
       # Homebrew wants to read the cask from a tap, not a path, so make this
       # checkout the tap. --online fetches both disk images and verifies the
       # checksums just written, which is the check that actually matters.
@@ -66,10 +77,6 @@ jobs:
           brew audit --cask --online --strict klarluft/tap/gitwarren
           brew fetch --cask --arch intel klarluft/tap/gitwarren
 
-      - name: Commit and push
+      - name: Push
         if: steps.diff.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "gitwarren $(sed -nE 's/^  version "(.*)"$/\1/p' Casks/gitwarren.rb)"
-          git push
+        run: git push
