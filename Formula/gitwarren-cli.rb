@@ -99,7 +99,7 @@ class GitwarrenCli < Formula
     # framed request, so a single round trip exercises all of it.
     output = pipe_output(
       "#{bin}/gitwarren serve --stdio",
-      "{\"id\":1,\"method\":\"repositories.list\"}\n",
+      "{\"id\":1,\"method\":\"repositories.list\"}\n"
     )
     assert_match "\"id\":1", output
   end
