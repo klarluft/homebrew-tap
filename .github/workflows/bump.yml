@@ -1,6 +1,6 @@
 name: Bump gitwarren
 
-# Keeps the cask pointed at the latest published release of
+# Keeps the cask and the formula pointed at the latest published release of
 # klarluft/gitwarren-app. Three ways in:
 #
 #  - repository_dispatch: sent by the app repository the moment a release is
@@ -9,8 +9,8 @@ name: Bump gitwarren
 #    even if the dispatch never arrives.
 #  - workflow_dispatch: by hand, optionally pinning a tag.
 #
-# Whatever the trigger, the result is the same: re-resolve the release,
-# rewrite the cask, and commit if anything changed.
+# Whatever the trigger, the result is the same: re-resolve the release, rewrite
+# the cask, replace the formula, and commit if anything changed.
 
 on:
   repository_dispatch:
@@ -69,6 +69,12 @@ jobs:
       # Homebrew wants to read the cask from a tap, not a path, so make this
       # checkout the tap. --online fetches both disk images and verifies the
       # checksums just written, which is the check that actually matters.
+      #
+      # `brew style` lints the WHOLE tap, formula included - so a generated
+      # gitwarren-cli.rb that is not style-clean fails this job even though
+      # nobody edited it by hand. Deliberate: the fix belongs in the template in
+      # the app repository (packaging/homebrew), because anything corrected here
+      # is overwritten by the next release.
       - name: Audit the cask
         if: steps.diff.outputs.changed == 'true'
         # `--online` asks the GitHub API about the repository behind the cask,
@@ -86,6 +92,21 @@ jobs:
           brew style klarluft/tap
           brew audit --cask --online --strict klarluft/tap/gitwarren
           brew fetch --cask --arch intel klarluft/tap/gitwarren
+
+      # The formula gets the check that matters for it, which is not the same
+      # one. `brew fetch` downloads the daemon tarball for this runner's
+      # platform and verifies it against the sha256 the release computed - the
+      # failure that would otherwise reach a user as `SHA256 mismatch` with
+      # nothing on either end to explain it.
+      #
+      # Not `brew audit --formula`: it objects to the explicit `version`, and
+      # that line is load-bearing. There is no top-level `url` for Homebrew to
+      # scan a version from, only the four inside on_macos/on_linux blocks.
+      - name: Verify the formula
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+        run: brew fetch --formula klarluft/tap/gitwarren-cli
 
       - name: Push
         if: steps.diff.outputs.changed == 'true'
