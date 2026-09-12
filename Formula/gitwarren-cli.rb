@@ -21,9 +21,9 @@
 # calls it. A user types `brew install klarluft/tap/gitwarren-cli` once and then
 # never sees the suffix again.
 class GitwarrenCli < Formula
-  desc "Local-only code review for your git repositories, served on loopback"
+  desc "Code review for your own machines and your own agents, served on loopback"
   homepage "https://github.com/klarluft/gitwarren-app"
-  version "0.1.7"
+  version "0.1.8"
   license "GPL-3.0-or-later"
 
   # Four bottles that are not bottles: each is the self-contained tarball from
@@ -35,23 +35,23 @@ class GitwarrenCli < Formula
   # happen, and the tarball exists precisely so that cannot occur.
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.7/gitwarren-daemon-0.1.7-darwin-arm64.tar.gz"
-      sha256 "542caaa530d8292be79c0c6a6eb6868eadfa60e675790549be52b901bc2bd3a1"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-darwin-arm64.tar.gz"
+      sha256 "5c5f115959e8bc40d40d7a4e0f5617fa3c3dd970ac4f5d215c31de96c9d4b932"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.7/gitwarren-daemon-0.1.7-darwin-x64.tar.gz"
-      sha256 "82787bf36afe9290ae29c9e8366eb9e990efa6c6d8fa64bf324310e79f0160b6"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-darwin-x64.tar.gz"
+      sha256 "7ba4590067226bcf48228d360a21cd4b856b9db49c5b7d957dad435284f8d8d9"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.7/gitwarren-daemon-0.1.7-linux-arm64.tar.gz"
-      sha256 "87f3b84e5129df154d1fdcc6abaa3a846bb9e25b37d15a19907d0f431d7d2091"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-linux-arm64.tar.gz"
+      sha256 "a5b49f5bce2d88c55c837c88e1d5ed936c59b1e7339299dad46d9179608dc203"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.7/gitwarren-daemon-0.1.7-linux-x64.tar.gz"
-      sha256 "e7886e00fdf9e72e03dfd37dd95b300591120c0cbe738a6e1877f735a06c20bc"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-linux-x64.tar.gz"
+      sha256 "fe46b4125f55a7591092f82770f28f6c4497a28dd33a8fe2ac8d4bb13aee557e"
     end
   end
 
@@ -99,7 +99,7 @@ class GitwarrenCli < Formula
     # framed request, so a single round trip exercises all of it.
     output = pipe_output(
       "#{bin}/gitwarren serve --stdio",
-      "{\"id\":1,\"method\":\"repositories.list\"}\n"
+      "{\"id\":1,\"method\":\"repositories.list\"}\n",
     )
     assert_match "\"id\":1", output
   end
