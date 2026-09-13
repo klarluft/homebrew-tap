@@ -23,7 +23,7 @@
 class GitwarrenCli < Formula
   desc "Code review for your own machines and your own agents, served on loopback"
   homepage "https://github.com/klarluft/gitwarren-app"
-  version "0.1.8"
+  version "0.1.9"
   license "GPL-3.0-or-later"
 
   # Four bottles that are not bottles: each is the self-contained tarball from
@@ -35,23 +35,23 @@ class GitwarrenCli < Formula
   # happen, and the tarball exists precisely so that cannot occur.
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-darwin-arm64.tar.gz"
-      sha256 "5c5f115959e8bc40d40d7a4e0f5617fa3c3dd970ac4f5d215c31de96c9d4b932"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.9/gitwarren-daemon-0.1.9-darwin-arm64.tar.gz"
+      sha256 "89b559199aa183e52f07430d80f505af479a2f8846fb8a63505f96d5c9f5bbe4"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-darwin-x64.tar.gz"
-      sha256 "7ba4590067226bcf48228d360a21cd4b856b9db49c5b7d957dad435284f8d8d9"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.9/gitwarren-daemon-0.1.9-darwin-x64.tar.gz"
+      sha256 "0ca90eb934fe3ef511fd51dfd0716dcef37d86379f89dacaaf0d3aa1cb226cb1"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-linux-arm64.tar.gz"
-      sha256 "a5b49f5bce2d88c55c837c88e1d5ed936c59b1e7339299dad46d9179608dc203"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.9/gitwarren-daemon-0.1.9-linux-arm64.tar.gz"
+      sha256 "d14e001724451429f507c4a1980edcddd9d20de0b03998c047d173658e7a32f6"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.8/gitwarren-daemon-0.1.8-linux-x64.tar.gz"
-      sha256 "fe46b4125f55a7591092f82770f28f6c4497a28dd33a8fe2ac8d4bb13aee557e"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.9/gitwarren-daemon-0.1.9-linux-x64.tar.gz"
+      sha256 "8e2cc5f7d172598786bc09da078bcd18c9a73063a1947395c11124c9e324e257"
     end
   end
 
@@ -72,16 +72,30 @@ class GitwarrenCli < Formula
     bin.install_symlink libexec/"bin/gitwarren-mcp"
   end
 
+  # Read once, at the moment someone has just installed this and does not yet
+  # know what it is. So it answers the three questions that moment has - how
+  # do I start it, how do I keep it running, how does my agent get in - in
+  # that order, and says what each command does to the machine rather than
+  # what it is called. The desktop app is last because a person who wanted it
+  # has probably typed the wrong formula.
   def caveats
     <<~EOS
-      GitWarren serves its web view on 127.0.0.1 only:
+      To run GitWarren in this terminal and open it in your browser:
 
-        gitwarren serve         start it, and print a URL carrying this launch's token
-        gitwarren open          open that URL in your browser
-        gitwarren service install   start it at login, and write the agent launcher
+        gitwarren serve --open
 
-      `service install` also writes ~/.gitwarren/bin/gitwarren-mcp, which is the
-      one command to point an agent at. The desktop app is a separate package:
+      That serves on 127.0.0.1 only and stops when you press Ctrl-C. To keep
+      GitWarren running in the background instead, starting now and again at
+      every login:
+
+        gitwarren service install       (undo with: gitwarren service uninstall)
+
+      Either one also writes ~/.gitwarren/bin/gitwarren-mcp, the command a coding
+      agent starts GitWarren's MCP server with. `gitwarren agent-setup` prints the
+      sentence to give the agent. Reviews live in one SQLite file, and the MCP
+      server reads it whether or not GitWarren is being served.
+
+      `gitwarren --help` lists everything. The desktop app is a separate package:
 
         brew install --cask klarluft/tap/gitwarren
     EOS
