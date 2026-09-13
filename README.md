@@ -1,15 +1,33 @@
 # klarluft/homebrew-tap
 
-Homebrew casks for [GitWarren](https://gitwarren.com), a desktop app for local
-code review of your own git repositories.
+Homebrew packages for [GitWarren](https://gitwarren.com), code review for your
+own git repositories and your own agents.
+
+The desktop app, as a cask:
 
 ```bash
 brew install --cask klarluft/tap/gitwarren
 ```
 
-GitWarren updates itself once installed, so `brew upgrade` leaves it alone.
-To have Homebrew move it forward instead, use `brew upgrade --greedy`.
+The command line, as a formula — the same review UI served into a browser tab,
+for macOS and Linux, with its own Node inside:
 
-The cask is kept current automatically: `.github/workflows/bump.yml` re-reads
-the latest [release](https://github.com/klarluft/gitwarren-app/releases) and
-rewrites the version and checksums. See `scripts/bump.sh`.
+```bash
+brew install klarluft/tap/gitwarren-cli
+gitwarren serve --open
+```
+
+The tokens differ so the first line keeps meaning the app; the command the
+formula installs is called `gitwarren`. `gitwarren --help` lists what it does,
+and [Installing GitWarren](https://gitwarren.com/docs/install) explains it.
+Without Homebrew, `curl -fsSL https://gitwarren.com/install.sh | sh` installs
+the same tarball.
+
+GitWarren.app updates itself once installed, so `brew upgrade` leaves the cask
+alone; `brew upgrade --greedy` moves it forward. The command line has no
+updater, so `brew upgrade gitwarren-cli` is how it moves.
+
+Both are kept current automatically: `.github/workflows/bump.yml` re-reads the
+latest [release](https://github.com/klarluft/gitwarren-app/releases), rewrites
+the cask's version and checksums, and copies in the `gitwarren-cli.rb` that
+release attached. See `scripts/bump.sh`.
