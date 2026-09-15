@@ -1,9 +1,9 @@
 cask "gitwarren" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.1.9"
-  sha256 arm:   "7acfe37327ecc493b100467c23b0a6a945031d5dbb08b1e5aca43b9d09a18c6d",
-         intel: "0b376dde0d29ca49de9a4a7acf473bed81f5378e8f871a5f012aeff9f3184e88"
+  version "0.1.10"
+  sha256 arm:   "bb362fd7e4a781dc4c18a55ccb61055d0a5e3bd5221cd15b73c10889b02f12e9",
+         intel: "169af561f48c342c9ca1d3237b7f41f071602bf224dc6b72ed72e040c3d3ab5a"
 
   url "https://github.com/klarluft/gitwarren-app/releases/download/v#{version}/GitWarren-#{version}-#{arch}.dmg"
   name "GitWarren"
