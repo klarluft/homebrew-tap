@@ -23,7 +23,7 @@
 class GitwarrenCli < Formula
   desc "Code review for your own machines and your own agents, served on loopback"
   homepage "https://github.com/klarluft/gitwarren-app"
-  version "0.1.15"
+  version "0.1.16"
   license "GPL-3.0-or-later"
 
   # Four bottles that are not bottles: each is the self-contained tarball from
@@ -35,23 +35,23 @@ class GitwarrenCli < Formula
   # happen, and the tarball exists precisely so that cannot occur.
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-darwin-arm64.tar.gz"
-      sha256 "7f9bf0da852b9091ab00d6b864045ac6cbcae52688eb1fa2fe991730c90516a8"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.16/gitwarren-daemon-0.1.16-darwin-arm64.tar.gz"
+      sha256 "f427f7cbc3d533cd297c1f5c31bfd9e934a15f517dfb53f9e95eba81ce3cefe9"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-darwin-x64.tar.gz"
-      sha256 "cd62e1901726ab3a898618006c3c06d14ae70b33ce15363ff66f42281ca3444a"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.16/gitwarren-daemon-0.1.16-darwin-x64.tar.gz"
+      sha256 "89aa87032b03c49c94a5d684d8c3f0370711b032a5bfc0957bcbfe50480279f9"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-linux-arm64.tar.gz"
-      sha256 "a91853308b4bc1cbf96f2b2987415a5f3068e55c63bf4ee85e97bed500f8ad4c"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.16/gitwarren-daemon-0.1.16-linux-arm64.tar.gz"
+      sha256 "a91fe4ee0d054c4814e27f8282ddf2909edce8e0b9f7d3ffc261099d222a12db"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-linux-x64.tar.gz"
-      sha256 "1286a5dc239b1c8dc8b2a28351e2dc10e501172d55a07931556187c66be757c5"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.16/gitwarren-daemon-0.1.16-linux-x64.tar.gz"
+      sha256 "d80919571773d2fae7d5b58427ed8fac94a9147f3a069b5ab0ad736760d2bbc8"
     end
   end
 
