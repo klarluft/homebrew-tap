@@ -23,7 +23,7 @@
 class GitwarrenCli < Formula
   desc "Code review for your own machines and your own agents, served on loopback"
   homepage "https://github.com/klarluft/gitwarren-app"
-  version "0.1.14"
+  version "0.1.15"
   license "GPL-3.0-or-later"
 
   # Four bottles that are not bottles: each is the self-contained tarball from
@@ -35,23 +35,23 @@ class GitwarrenCli < Formula
   # happen, and the tarball exists precisely so that cannot occur.
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.14/gitwarren-daemon-0.1.14-darwin-arm64.tar.gz"
-      sha256 "99d293d9d0ccef8a2385681c27a43fe019c7ef9d4aae970cd4f0b84de5ffd211"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-darwin-arm64.tar.gz"
+      sha256 "7f9bf0da852b9091ab00d6b864045ac6cbcae52688eb1fa2fe991730c90516a8"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.14/gitwarren-daemon-0.1.14-darwin-x64.tar.gz"
-      sha256 "24c3909ff86822a15edace8593962141b3bfe406b8d2a1a6f1358bfd3fbea690"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-darwin-x64.tar.gz"
+      sha256 "cd62e1901726ab3a898618006c3c06d14ae70b33ce15363ff66f42281ca3444a"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.14/gitwarren-daemon-0.1.14-linux-arm64.tar.gz"
-      sha256 "7cbbc6144de9da4cf67204b4ec85eb5fb2873bbc8189c6763c498986e31355ca"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-linux-arm64.tar.gz"
+      sha256 "a91853308b4bc1cbf96f2b2987415a5f3068e55c63bf4ee85e97bed500f8ad4c"
     end
     on_intel do
-      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.14/gitwarren-daemon-0.1.14-linux-x64.tar.gz"
-      sha256 "aedcda3a1d879c57d8046a6e3ace8290ef1f1ca7781ecb2fa18a6d278b1547a5"
+      url "https://github.com/klarluft/gitwarren-app/releases/download/v0.1.15/gitwarren-daemon-0.1.15-linux-x64.tar.gz"
+      sha256 "1286a5dc239b1c8dc8b2a28351e2dc10e501172d55a07931556187c66be757c5"
     end
   end
 
@@ -94,6 +94,16 @@ class GitwarrenCli < Formula
       agent starts GitWarren's MCP server with. `gitwarren agent-setup` prints the
       sentence to give the agent. Reviews live in one SQLite file, and the MCP
       server reads it whether or not GitWarren is being served.
+
+      Updating is `brew upgrade gitwarren-cli`, and `gitwarren update --check`
+      will tell you when there is one. Before `brew uninstall gitwarren-cli`, run
+
+        gitwarren uninstall
+
+      which takes the login item and the two files in ~/.gitwarren/bin with it -
+      brew does not know about either, and a launcher left pointing into a Cellar
+      that is gone is how an agent ends up reporting that it cannot connect.
+      `gitwarren doctor` says whether that has already happened.
 
       `gitwarren --help` lists everything. The desktop app is a separate package:
 
