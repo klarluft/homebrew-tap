@@ -1,0 +1,72 @@
+name: Bump pitupitu
+
+# Keeps Formula/pitupitu.rb pointed at the latest published release of
+# klarluft/pitupitu, by copying the `pitupitu.rb` that release attached
+# (scripts/bump-pitupitu.sh). The schedule picks a release up within a few
+# hours; run it by hand to pick one up now, optionally pinning a tag.
+
+on:
+  schedule:
+    - cron: '47 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to bump to (blank = latest published)
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy the formula
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || '' }}
+        run: scripts/bump-pitupitu.sh "$TAG"
+
+      - name: Anything to commit?
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Formula already current."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git --no-pager diff
+          fi
+
+      # `brew tap <path>` clones the checkout, so commit before checking.
+      # Nothing is pushed until the checks pass.
+      - name: Commit the bump
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "pitupitu $(sed -nE 's|.*/download/v([^/]+)/.*|\1|p' Formula/pitupitu.rb | head -1)"
+
+      # `brew install` downloads this runner's tarball and checks it against
+      # the sha256 in the formula; `brew test` runs `pitupitu --version`.
+      - name: Check the formula
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
+        run: |
+          brew tap klarluft/tap "$GITHUB_WORKSPACE"
+          brew style klarluft/tap
+          brew audit --strict klarluft/tap/pitupitu
+          brew fetch --formula --arch intel klarluft/tap/pitupitu
+          brew install klarluft/tap/pitupitu
+          brew test klarluft/tap/pitupitu
+
+      - name: Push
+        if: steps.diff.outputs.changed == 'true'
+        run: git push
