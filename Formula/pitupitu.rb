@@ -12,23 +12,23 @@ class Pitupitu < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.3.3/pitupitu-aarch64-apple-darwin.tar.gz"
-      sha256 "c0c4a7eab8caa17f2ea0bfa18f016f47b23cc89ad9cfabb7bd5e40be0cc13ba9"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.5.0/pitupitu-aarch64-apple-darwin.tar.gz"
+      sha256 "21a8ec0f2ab63b6984c7dc6e2d6481ba43084a4c877f20444f758d8f659f6b93"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.3.3/pitupitu-x86_64-apple-darwin.tar.gz"
-      sha256 "b91a978d862dff2787a5e49f4bc3f820c842df6dbc5f1e85e4c3f80eea14db04"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.5.0/pitupitu-x86_64-apple-darwin.tar.gz"
+      sha256 "4decdeb38ab0d5fa50ccfaaf8ca9bf2814c6c9965cc077078b470b7b07b56ca0"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.3.3/pitupitu-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "86bfcb0a2d426db442bcfe5d5e1a16e03f662385b126a62e46782f0434157740"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.5.0/pitupitu-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "48ae8af185489236a99630252f90fb1bc30900b824dc9af2401ac21cce605890"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.3.3/pitupitu-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "033b92ba367d9d992cf1849716a636c5edb2ef23112cf5ffc87b0ecdae5416f2"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.5.0/pitupitu-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "296af2b95a44341bec773e3e5ae388eb1053b083e2b679ec12b607c5f41c4c0e"
     end
   end
 
@@ -42,7 +42,8 @@ class Pitupitu < Formula
 
         pitupitu setup
 
-      After `brew upgrade pitupitu`, run `pitupitu setup` again so the
+      pitupitu runs your agents in herdr; setup installs it when it is
+      missing. After `brew upgrade pitupitu`, run `pitupitu setup` again so the
       service restarts on the new version. Before `brew uninstall pitupitu`,
       run `pitupitu uninstall` to remove the service.
     EOS
