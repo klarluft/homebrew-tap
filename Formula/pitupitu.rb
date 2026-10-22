@@ -12,23 +12,23 @@ class Pitupitu < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.0/pitupitu-aarch64-apple-darwin.tar.gz"
-      sha256 "cdc01c14f7220e345323e12f507cfdf0b8be6899eaf1fe7c4efa6deec40e2702"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.1/pitupitu-aarch64-apple-darwin.tar.gz"
+      sha256 "3017362f622ead4120349c3bb5fb760e3e153880928a053aa1a4f629b5bfe085"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.0/pitupitu-x86_64-apple-darwin.tar.gz"
-      sha256 "b4a87e6269df04ab25a399fa17d5c6c1afb61fac3c09e4ce600852051a4f40f3"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.1/pitupitu-x86_64-apple-darwin.tar.gz"
+      sha256 "0ca4285afa52ef6cad44d0a5e1dde8884837e3edc35f725673a0c9fb63ea0fee"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.0/pitupitu-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "31c7bd6ba0d232a51ab9c22c3442f1854251710c38734f29a004dce8244dea7c"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.1/pitupitu-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "bd474a719551dea9224946c115c2e853c2b59310a0177ffcf86c4d82de3a9ae8"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.0/pitupitu-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "679730885e26d10d03793d4d7178ca38a810fafa3188f522eecae3bf144eb088"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.7.1/pitupitu-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "7f394f02e07d1e89c9d4e4b3d03fbef78d4809e791faf430fcd9e5aa501e062e"
     end
   end
 
