@@ -61,6 +61,8 @@ jobs:
           HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
         run: |
           brew tap klarluft/tap "$GITHUB_WORKSPACE"
+          # Homebrew refuses formulae from taps nobody has trusted yet.
+          brew trust klarluft/tap
           brew style klarluft/tap
           brew audit --strict klarluft/tap/pitupitu
           brew fetch --formula --arch intel klarluft/tap/pitupitu
