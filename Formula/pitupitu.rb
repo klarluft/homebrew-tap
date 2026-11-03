@@ -12,28 +12,35 @@ class Pitupitu < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.9.0/pitupitu-aarch64-apple-darwin.tar.gz"
-      sha256 "ad5dc658f9fe0db1a02a2230c6255f5949eb987c77e7e8f6d85a1656fe89ccc7"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.10.0/pitupitu-aarch64-apple-darwin.tar.gz"
+      sha256 "7717ca6e8a7bc5ff37b19fb3674e8be3261ae8fa0c34802282d3c81208a175a0"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.9.0/pitupitu-x86_64-apple-darwin.tar.gz"
-      sha256 "37d5826a117c980fbe777a1878f236e22792c97e7992822858a93b9622d03489"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.10.0/pitupitu-x86_64-apple-darwin.tar.gz"
+      sha256 "039874fbb9636be72ff7025ccdb919ebe8834eaef519236898bf1e5c87fb7671"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.9.0/pitupitu-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "f8e4def9e08af39abd91aeb726be57e42efc5b78027c7f461a7edd48874084f3"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.10.0/pitupitu-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "e316c45363d83db9274d6346623b4ba7d859a1e51e9a6750e2c6d1bb8ecafbff"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.9.0/pitupitu-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "3b95fbb5bef056f43d34de05154fefbe592954b2e75989d42c099f9bd25c7675"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.10.0/pitupitu-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "ba4d7b8b432bf2448de6a99e287b607fd58797e4e4ee3453ae63d9efa9acc1a3"
     end
   end
 
   def install
-    bin.install "pitupitu"
+    if OS.mac? && File.directory?("pitupitu.app")
+      # The signed app: macOS remembers the person's privacy answers by its
+      # identifier, which survives upgrades (the Cellar folder does not).
+      prefix.install "pitupitu.app"
+      bin.install_symlink prefix/"pitupitu.app/Contents/MacOS/pitupitu"
+    else
+      bin.install "pitupitu"
+    end
   end
 
   def caveats
