@@ -12,23 +12,23 @@ class Pitupitu < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.14.2/pitupitu-aarch64-apple-darwin.tar.gz"
-      sha256 "7d4e8d64d5f86fe4ff3c72cc222be60e14d3b1163edb56879d331d7ae44649cf"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.15.0/pitupitu-aarch64-apple-darwin.tar.gz"
+      sha256 "d44bee8e701fd3ce305cfd8aacd834c06d452bd3284059488776c187db1028d4"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.14.2/pitupitu-x86_64-apple-darwin.tar.gz"
-      sha256 "a1503349c16b58fdc5b3cdce759c45f5b6af1308f7f302b79ad2716642018f7e"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.15.0/pitupitu-x86_64-apple-darwin.tar.gz"
+      sha256 "724905fe8e7baa898dc42ab71877343d64234670fe3b680a59449b7fe3c24a3d"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.14.2/pitupitu-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "81cbc1eff74a4804750708204426b1680ee5d592eb3121fa58141d6b0de5fc3e"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.15.0/pitupitu-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "474ba8c6169f4500dd09b5ce7d0701ddbad32ce4352d0e2511429013aab7bf63"
     end
     on_intel do
-      url "https://github.com/klarluft/pitupitu/releases/download/v0.14.2/pitupitu-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "2e1fe79a472ef5f54e51a571ec957ccdcf1cf0cefbddde2f1a1100492c7ea19f"
+      url "https://github.com/klarluft/pitupitu/releases/download/v0.15.0/pitupitu-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "c63b4f457d9e567ba2b4672170ce205352c7512c96398b36fcc0a22afbe92205"
     end
   end
 
@@ -49,8 +49,9 @@ class Pitupitu < Formula
 
         pitupitu setup
 
-      pitupitu runs your agents in herdr; setup installs it when it is
-      missing. After `brew upgrade pitupitu`, run `pitupitu setup` again so the
+      pitupitu runs your agents in herdr; setup offers to install it when
+      it is missing. Keep herdr open in a terminal (run `herdr`) so
+      pitupitu can reach your agents. After `brew upgrade pitupitu`, run `pitupitu setup` again so the
       service restarts on the new version. Before `brew uninstall pitupitu`,
       run `pitupitu uninstall` to remove the service.
     EOS
